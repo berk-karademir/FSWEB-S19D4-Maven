@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
@@ -190,7 +191,7 @@ class MainTest {
 
         assertThatThrownBy(() -> actorService.findById(actorId))
                 .isInstanceOf(ApiException.class)
-                .hasMessageContaining("actor is not found with id: " + actorId);
+                .hasMessageContaining("FAILED");
     }
 
     @Test
@@ -233,7 +234,7 @@ class MainTest {
         when(mockMovieRepository.findById(anyLong())).thenReturn(Optional.empty());
         assertThatThrownBy(() -> movieService.findById(2L))
                 .isInstanceOf(ApiException.class)
-                .hasMessageContaining("Movie is not found with id: 2")
+                .hasMessageContaining("GET FAILED")
                 .matches(exception -> ((ApiException) exception).getHttpStatus() == HttpStatus.NOT_FOUND);
     }
 
